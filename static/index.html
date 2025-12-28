@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>iExported</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+</head>
+<body>
+
+<div id="modalOverlay" class="flex-center">
+    <div class="alert">
+        <div class="alert-content">
+            <div class="alert-title" id="mTitle">Title</div>
+            <div class="alert-message" id="mMsg">Message</div>
+        </div>
+        <div class="alert-actions">
+            <button id="alertOk" class="alert-btn">Ok</button>
+        </div>
+    </div>
+</div>
+
+<div id="loginOverlay" class="flex-center hidden">
+    <div class="login-content">
+        <div class="sub">
+            <h2>iExported</h2>
+            <p>Enter your password to proceed</p>
+        </div>
+        <input type="password" id="passInput" class="login-input" placeholder="Password" autofocus>
+        <button id="loginSubmit" class="login-btn">Enter</button>
+    </div>
+</div>
+
+<div id="offlineOverlay" class="flex-center hidden">
+    <div class="login-content">
+        <div class="sub">
+            <h2>iExported</h2>
+            <p>You're not connected right now</p>
+        </div>
+        <button id="offlineReload" class="login-btn">Try again</button>
+    </div>
+</div>
+
+<div id="app" class="hidden">
+    <div class="page list-view" id="listView">
+        <header id="stickyHeader" class="nav-bar">
+            <div class="nav-content">
+                <div class="nav-left"><button id="rescanBtn" class="edit-btn">Rescan</button></div>
+                <div id="compactTitle" class="compact-title">iExported</div>
+                <div class="nav-right">
+                    <button id="filterBtn" class="info-btn"><svg width="22" height="22" viewBox="0 0 20.2832 19.9316"><g><rect height="19.9316" opacity="0" width="20.2832" x="0" y="0"/><path d="M9.96094 19.9219C15.459 19.9219 19.9219 15.459 19.9219 9.96094C19.9219 4.46289 15.459 0 9.96094 0C4.46289 0 0 4.46289 0 9.96094C0 15.459 4.46289 19.9219 9.96094 19.9219ZM9.96094 18.2617C5.37109 18.2617 1.66016 14.5508 1.66016 9.96094C1.66016 5.37109 5.37109 1.66016 9.96094 1.66016C14.5508 1.66016 18.2617 5.37109 18.2617 9.96094C18.2617 14.5508 14.5508 18.2617 9.96094 18.2617Z" fill="currentColor" fill-opacity="0.85"/><path d="M4.64844 8.03711L15.293 8.03711C15.7227 8.03711 16.0352 7.76367 16.0352 7.34375C16.0352 6.93359 15.7227 6.66016 15.293 6.66016L4.64844 6.66016C4.20898 6.66016 3.90625 6.93359 3.90625 7.34375C3.90625 7.76367 4.20898 8.03711 4.64844 8.03711ZM6.09375 11.2695L13.8477 11.2695C14.2773 11.2695 14.5801 10.9961 14.5801 10.5762C14.5801 10.166 14.2773 9.89258 13.8477 9.89258L6.09375 9.89258C5.6543 9.89258 5.35156 10.166 5.35156 10.5762C5.35156 10.9961 5.6543 11.2695 6.09375 11.2695ZM7.59766 14.5117L12.334 14.5117C12.7637 14.5117 13.0762 14.2285 13.0762 13.8184C13.0762 13.4082 12.7637 13.1348 12.334 13.1348L7.59766 13.1348C7.16797 13.1348 6.86523 13.4082 6.86523 13.8184C6.86523 14.2285 7.16797 14.5117 7.59766 14.5117Z" fill="currentColor" fill-opacity="0.85"/></g></svg></button>
+                    <div id="filterMenu" class="dropdown">
+                        <div class="menu-item selected" data-filter="all">All chats <svg class="check-icon" viewBox="0 0 17.1875 17.2363"><path d="M6.36719 17.2363C6.78711 17.2363 7.11914 17.0508 7.35352 16.6895L16.582 2.1582C16.7578 1.875 16.8262 1.66016 16.8262 1.43555C16.8262 0.898438 16.4746 0.546875 15.9375 0.546875C15.5469 0.546875 15.332 0.673828 15.0977 1.04492L6.32812 15.0195L1.77734 9.0625C1.5332 8.7207 1.28906 8.58398 0.9375 8.58398C0.380859 8.58398 0 8.96484 0 9.50195C0 9.72656 0.0976562 9.98047 0.283203 10.2148L5.35156 16.6699C5.64453 17.0508 5.94727 17.2363 6.36719 17.2363Z" fill="currentColor"/></svg></div>
+                        <div class="menu-item" data-filter="contacts">Contacts <svg class="check-icon" viewBox="0 0 17.1875 17.2363"><path d="M6.36719 17.2363C6.78711 17.2363 7.11914 17.0508 7.35352 16.6895L16.582 2.1582C16.7578 1.875 16.8262 1.66016 16.8262 1.43555C16.8262 0.898438 16.4746 0.546875 15.9375 0.546875C15.5469 0.546875 15.332 0.673828 15.0977 1.04492L6.32812 15.0195L1.77734 9.0625C1.5332 8.7207 1.28906 8.58398 0.9375 8.58398C0.380859 8.58398 0 8.96484 0 9.50195C0 9.72656 0.0976562 9.98047 0.283203 10.2148L5.35156 16.6699C5.64453 17.0508 5.94727 17.2363 6.36719 17.2363Z" fill="currentColor"/></svg></div>
+                        <div class="menu-item" data-filter="groups">Group chats <svg class="check-icon" viewBox="0 0 17.1875 17.2363"><path d="M6.36719 17.2363C6.78711 17.2363 7.11914 17.0508 7.35352 16.6895L16.582 2.1582C16.7578 1.875 16.8262 1.66016 16.8262 1.43555C16.8262 0.898438 16.4746 0.546875 15.9375 0.546875C15.5469 0.546875 15.332 0.673828 15.0977 1.04492L6.32812 15.0195L1.77734 9.0625C1.5332 8.7207 1.28906 8.58398 0.9375 8.58398C0.380859 8.58398 0 8.96484 0 9.50195C0 9.72656 0.0976562 9.98047 0.283203 10.2148L5.35156 16.6699C5.64453 17.0508 5.94727 17.2363 6.36719 17.2363Z" fill="currentColor"/></svg></div>
+                        <div class="menu-item" data-filter="unknown">Unknown <svg class="check-icon" viewBox="0 0 17.1875 17.2363"><path d="M6.36719 17.2363C6.78711 17.2363 7.11914 17.0508 7.35352 16.6895L16.582 2.1582C16.7578 1.875 16.8262 1.66016 16.8262 1.43555C16.8262 0.898438 16.4746 0.546875 15.9375 0.546875C15.5469 0.546875 15.332 0.673828 15.0977 1.04492L6.32812 15.0195L1.77734 9.0625C1.5332 8.7207 1.28906 8.58398 0.9375 8.58398C0.380859 8.58398 0 8.96484 0 9.50195C0 9.72656 0.0976562 9.98047 0.283203 10.2148L5.35156 16.6699C5.64453 17.0508 5.94727 17.2363 6.36719 17.2363Z" fill="currentColor"/></svg></div>
+                    </div>
+                    <button id="infoBtn" class="info-btn"><svg width="22" height="22" viewBox="0 0 20.2832 19.9316"><g><rect height="19.9316" opacity="0" width="20.2832" x="0" y="0"/><path d="M9.96094 19.9219C15.459 19.9219 19.9219 15.459 19.9219 9.96094C19.9219 4.46289 15.459 0 9.96094 0C4.46289 0 0 4.46289 0 9.96094C0 15.459 4.46289 19.9219 9.96094 19.9219ZM9.96094 18.2617C5.37109 18.2617 1.66016 14.5508 1.66016 9.96094C1.66016 5.37109 5.37109 1.66016 9.96094 1.66016C14.5508 1.66016 18.2617 5.37109 18.2617 9.96094C18.2617 14.5508 14.5508 18.2617 9.96094 18.2617Z" fill="currentColor" fill-opacity="0.85"/><path d="M8.25195 15.4297L12.2266 15.4297C12.627 15.4297 12.9395 15.1367 12.9395 14.7363C12.9395 14.3555 12.627 14.0527 12.2266 14.0527L11.0156 14.0527L11.0156 9.08203C11.0156 8.55469 10.752 8.20312 10.2539 8.20312L8.41797 8.20312C8.01758 8.20312 7.70508 8.50586 7.70508 8.88672C7.70508 9.28711 8.01758 9.58008 8.41797 9.58008L9.46289 9.58008L9.46289 14.0527L8.25195 14.0527C7.85156 14.0527 7.53906 14.3555 7.53906 14.7363C7.53906 15.1367 7.85156 15.4297 8.25195 15.4297ZM9.87305 6.58203C10.5859 6.58203 11.1426 6.01562 11.1426 5.30273C11.1426 4.58984 10.5859 4.02344 9.87305 4.02344C9.16992 4.02344 8.60352 4.58984 8.60352 5.30273C8.60352 6.01562 9.16992 6.58203 9.87305 6.58203Z" fill="currentColor" fill-opacity="0.85"/></g></svg></button>
+                </div>
+            </div>
+        </header>
+        <div class="scroll-container" id="listScroll">
+            <div class="large-title-section">
+                <h1>iExported</h1>
+                <div class="search-wrapper">
+                    <svg class="search-icon" viewBox="0 0 19.4434 19.2676"><g><rect height="19.2676" opacity="0" width="19.4434" x="0" y="0"/><path d="M0 7.79297C0 12.0898 3.49609 15.5859 7.79297 15.5859C9.49219 15.5859 11.0449 15.0391 12.3242 14.1211L17.1289 18.9355C17.3535 19.1602 17.6465 19.2676 17.959 19.2676C18.623 19.2676 19.082 18.7695 19.082 18.1152C19.082 17.8027 18.9648 17.5195 18.7598 17.3145L13.9844 12.5098C14.9902 11.2012 15.5859 9.57031 15.5859 7.79297C15.5859 3.49609 12.0898 0 7.79297 0C3.49609 0 0 3.49609 0 7.79297ZM1.66992 7.79297C1.66992 4.41406 4.41406 1.66992 7.79297 1.66992C11.1719 1.66992 13.916 4.41406 13.916 7.79297C13.916 11.1719 11.1719 13.916 7.79297 13.916C4.41406 13.916 1.66992 11.1719 1.66992 7.79297Z" fill="#8e8e93" fill-opacity="0.85"/></g></svg>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search">
+                    <button id="searchClear" class="search-clear-btn"><svg viewBox="0 0 20.2832 19.9316"><g><rect height="19.9316" opacity="0" width="20.2832" x="0" y="0"/><path d="M19.9219 9.96094C19.9219 15.4492 15.459 19.9219 9.96094 19.9219C4.47266 19.9219 0 15.4492 0 9.96094C0 4.46289 4.47266 0 9.96094 0C15.459 0 19.9219 4.46289 19.9219 9.96094ZM12.7051 6.11328L9.96094 8.83789L7.23633 6.12305C7.08008 5.97656 6.9043 5.89844 6.67969 5.89844C6.23047 5.89844 5.87891 6.24023 5.87891 6.69922C5.87891 6.91406 5.95703 7.10938 6.11328 7.26562L8.81836 9.9707L6.11328 12.6855C5.95703 12.832 5.87891 13.0371 5.87891 13.252C5.87891 13.7012 6.23047 14.0625 6.67969 14.0625C6.9043 14.0625 7.10938 13.9844 7.26562 13.8281L9.96094 11.1133L12.666 13.8281C12.8125 13.9844 13.0176 14.0625 13.2422 14.0625C13.7012 14.0625 14.0625 13.7012 14.0625 13.252C14.0625 13.0273 13.9844 12.8223 13.8184 12.6758L11.1133 9.9707L13.8281 7.25586C14.0039 7.08008 14.0723 6.9043 14.0723 6.67969C14.0723 6.23047 13.7109 5.87891 13.2617 5.87891C13.0469 5.87891 12.8711 5.94727 12.7051 6.11328Z" fill-opacity="0.55"/></g></svg></button>
+                </div>
+            </div>
+            <div id="conversationList">
+                <div class="skeleton-row">
+                    <div class="sk-line sk-w60"></div>
+                    <div class="sk-line sk-w40"></div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="sk-line sk-w55"></div>
+                    <div class="sk-line sk-w45"></div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="sk-line sk-w65"></div>
+                    <div class="sk-line sk-w35"></div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="sk-line sk-w50"></div>
+                    <div class="sk-line sk-w50"></div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="sk-line sk-w70"></div>
+                    <div class="sk-line sk-w30"></div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="sk-line sk-w58"></div>
+                    <div class="sk-line sk-w42"></div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="sk-line sk-w62"></div>
+                    <div class="sk-line sk-w38"></div>
+                </div>
+                <div class="skeleton-row">
+                    <div class="sk-line sk-w68"></div>
+                    <div class="sk-line sk-w32"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page detail-view" id="detailView">
+        <header class="detail-header">
+            <button id="backBtn" class="back-btn"><svg width="28" height="28" viewBox="0 0 12.3926 16.9629"><g><rect height="16.9629" opacity="0" width="12.3926" x="0" y="0"/><path d="M0 8.47656C0 8.7207 0.0878906 8.93555 0.273438 9.12109L8.01758 16.6895C8.18359 16.8652 8.39844 16.9531 8.65234 16.9531C9.16016 16.9531 9.55078 16.5723 9.55078 16.0645C9.55078 15.8105 9.44336 15.5957 9.28711 15.4297L2.17773 8.47656L9.28711 1.52344C9.44336 1.35742 9.55078 1.13281 9.55078 0.888672C9.55078 0.380859 9.16016 0 8.65234 0C8.39844 0 8.18359 0.0878906 8.01758 0.253906L0.273438 7.83203C0.0878906 8.00781 0 8.23242 0 8.47656Z" fill="currentColor" fill-opacity="0.85"/></g></svg><span>Back</span></button>
+            <div class="title-container" id="titleGroupContainer">
+                <div id="chatTitle" class="chat-title">Name</div>
+                <svg id="groupChevron" class="group-chevron" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+                <div id="participantMenu" class="dropdown center-menu"></div>
+            </div>
+            <div class="menu-container">
+                <button id="menuTrigger" class="menu-trigger"><svg width="24" height="24" viewBox="0 0 20.2832 19.9316"><g><rect height="19.9316" opacity="0" width="20.2832" x="0" y="0"/><path d="M9.96094 19.9219C15.459 19.9219 19.9219 15.459 19.9219 9.96094C19.9219 4.46289 15.459 0 9.96094 0C4.46289 0 0 4.46289 0 9.96094C0 15.459 4.46289 19.9219 9.96094 19.9219ZM9.96094 18.2617C5.37109 18.2617 1.66016 14.5508 1.66016 9.96094C1.66016 5.37109 5.37109 1.66016 9.96094 1.66016C14.5508 1.66016 18.2617 5.37109 18.2617 9.96094C18.2617 14.5508 14.5508 18.2617 9.96094 18.2617Z" fill="currentColor" fill-opacity="0.85"/><path d="M4.85352 11.0156L9.95117 11.0156C10.332 11.0156 10.6348 10.7227 10.6348 10.332L10.6348 3.75C10.6348 3.36914 10.332 3.07617 9.95117 3.07617C9.57031 3.07617 9.27734 3.36914 9.27734 3.75L9.27734 9.6582L4.85352 9.6582C4.46289 9.6582 4.16992 9.95117 4.16992 10.332C4.16992 10.7227 4.46289 11.0156 4.85352 11.0156Z" fill="currentColor" fill-opacity="0.85"/></g></svg></button>
+                <div id="dateMenu" class="dropdown"></div>
+            </div>
+        </header>
+        <div id="emptyState" class="empty-state">
+            <span>No Conversation Selected</span>
+        </div>
+        <div class="iframe-wrapper">
+            <div class="spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+            <iframe id="chatFrame" allowtransparency="true"></iframe>
+        </div>
+    </div>
+</div>
+<script src="script.js" defer></script>
+</body>
+</html>

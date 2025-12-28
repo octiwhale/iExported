@@ -1,0 +1,25 @@
+{
+  "name": "iExported",
+  "short_name": "iExported",
+  "description": "Viewer for iMessage exports",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#007aff",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["productivity"]
+}

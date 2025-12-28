@@ -1,0 +1,9 @@
+# Ignore the data directory
+data/
+
+# Ignore local binaries and modules
+iexported-bin
+go.sum
+.DS_Store
+gh.png
+README.md
