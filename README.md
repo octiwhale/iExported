@@ -70,7 +70,7 @@ services:
       # Set to 1 only if served over HTTPS (e.g. behind a reverse proxy)
       # HTTPS_ENABLED: "${HTTPS_ENABLED:-0}"
     volumes:
-      - /path/to/data:/root/data:ro
+      - /path/to/data:/root/data
     healthcheck:
       test: ["CMD", "./iexported", "--healthcheck"]
       interval: 10s
@@ -96,7 +96,7 @@ docker run --rm \
   -e AUTH_PASSWORD='<bcrypt-hash>' \
   -e AUTH_SECRET='<long-random-secret>' \
   -e LOG_LEVEL=warn \
-  -v /path/to/data:/root/data:ro \
+  -v /path/to/data:/root/data \
   octiwhale/iexported:latest
 ```
 
