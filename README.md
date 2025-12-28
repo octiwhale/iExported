@@ -1,6 +1,6 @@
 ![Logo](gh.png)
 # iExported
-View your iMessage chat history right from your browser.
+View exported iMessage conversations right from your browser.
 
 ## Key Features
 - Familiar Apple-like interface with native dark mode support.
